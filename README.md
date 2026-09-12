@@ -1,1 +1,11 @@
-IyBPUEMgTGl2cmFpc29uCgpTaXRlIGRlIGRlbWFuZGUgZGUgbGl2cmFpc29uIGxvY2FsZS4gTGVzIGNsaWVudHMgcGV1dmVudCBwcsOpY2lzZXIgbGUgY29tbWVyY2UsIGxlcyBhcnRpY2xlcyBldCBsZXVyIGFkcmVzc2UuIExlcyBkZW1hbmRlcyBzb250IHRyYW5zbWlzZXMgw6AgYGxpdnJhaXNvbm9wY0BnbWFpbC5jb21gLgoKIyMgVGFyaWZpY2F0aW9uIGFmZmljaMOpZQoKTGl2cmFpc29uIMOgIHBhcnRpciBkZSA1ICQuIExlIHByaXggZmluYWwgdmFyaWUgc2Vsb24gbGEgZGlzdGFuY2UgZXQgZXN0IGNvbmZpcm3DqSBhdmFudCBsYSBsaXZyYWlzb24uCgojIyBGb3JtdWxhaXJlCgpMZSBmb3JtdWxhaXJlIHV0aWxpc2UgRm9ybVN1Ym1pdC4gTG9ycyBkZSBsYSBwcmVtacOocmUgZGVtYW5kZSwgdW4gY291cnJpZWwgZCdhY3RpdmF0aW9uIHNlcmEgZW52b3nDqSDDoCBsJ2FkcmVzc2UgZGUgcsOpY2VwdGlvbiBldCBkZXZyYSDDqnRyZSBjb25maXJtw6kgdW5lIHNldWxlIGZvaXMuCg==
+# OPC Livraison
+
+Site de demande de livraison locale. Les clients peuvent préciser le commerce, les articles et leur adresse. Les demandes sont transmises à `livraisonopc@gmail.com`.
+
+## Tarification affichée
+
+Livraison à partir de 5 $. Le prix final varie selon la distance et est confirmé avant la livraison.
+
+## Formulaire
+
+Le formulaire utilise FormSubmit. Lors de la première demande, un courriel d'activation sera envoyé à l'adresse de réception et devra être confirmé une seule fois.
