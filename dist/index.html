@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="OPC Livraison récupère ce que vous voulez, où vous voulez, et vous l'apporte à domicile." />
+  <title>OPC Livraison | Tout ce qu'il vous faut, livré</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23ff5c35'/%3E%3Cpath d='M15 35h7l5-15h19l4 15h-7' fill='none' stroke='white' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='24' cy='42' r='5' fill='white'/%3E%3Ccircle cx='43' cy='42' r='5' fill='white'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="nav-wrap">
+    <nav class="nav" aria-label="Navigation principale">
+      <a class="brand" href="#accueil" aria-label="OPC Livraison, accueil"><span class="brand-mark">O</span><span>OPC <b>Livraison</b></span></a>
+      <div class="nav-links"><a href="#fonctionnement">Comment ça marche</a><a href="#tarifs">Tarifs</a></div>
+      <a class="button button-small" href="#commander">Commander</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="accueil">
+      <div class="hero-copy">
+        <span class="eyebrow"><i></i> Livraison locale et personnalisée</span>
+        <h1>Vous le voulez.<br><em>On vous l'apporte.</em></h1>
+        <p>Restaurant, épicerie, pharmacie ou commerce local : dites-nous quoi récupérer et où. On s'occupe du reste.</p>
+        <div class="hero-actions"><a class="button" href="#commander">Faire une demande <span>→</span></a><a class="text-link" href="#fonctionnement">Voir comment ça marche</a></div>
+        <div class="trust-row"><span>✓ Demande simple</span><span>✓ Prix clair</span><span>✓ Service local</span></div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="route route-one"></div><div class="route route-two"></div>
+        <div class="pin pin-store"><span>🏪</span><small>Votre commerce</small></div>
+        <div class="pin pin-home"><span>🏠</span><small>Chez vous</small></div>
+        <div class="courier">OPC <span>➜</span></div>
+        <div class="price-card"><small>Livraison à partir de</small><strong>5 $</strong></div>
+      </div>
+    </section>
+
+    <section class="steps" id="fonctionnement">
+      <div class="section-head"><span class="kicker">Aussi simple que ça</span><h2>Trois étapes. Zéro casse-tête.</h2></div>
+      <div class="step-grid">
+        <article><span class="step-number">01</span><div class="step-icon">✎</div><h3>Dites-nous ce que vous voulez</h3><p>Indiquez le commerce, les articles désirés et votre adresse.</p></article>
+        <article><span class="step-number">02</span><div class="step-icon">✓</div><h3>On confirme votre demande</h3><p>Nous vérifions les détails et vous confirmons le prix avant de partir.</p></article>
+        <article><span class="step-number">03</span><div class="step-icon">⌂</div><h3>On livre à votre porte</h3><p>Votre commande est récupérée et livrée directement chez vous.</p></article>
+      </div>
+    </section>
+
+    <section class="pricing" id="tarifs">
+      <div><span class="kicker">Tarification</span><h2>La livraison commence à seulement <em>5 $</em></h2><p>Le prix final varie selon la distance entre le commerce choisi et votre adresse. Vous recevez toujours une confirmation avant la livraison.</p></div>
+      <div class="price-badge"><small>À partir de</small><strong>5<sup>$</sup></strong><span>selon la distance</span></div>
+    </section>
+
+    <section class="order-section" id="commander">
+      <div class="order-intro"><span class="kicker">Demande de livraison</span><h2>Qu'est-ce qu'on vous apporte?</h2><p>Remplissez le formulaire. Votre demande sera envoyée directement à OPC Livraison et nous communiquerons avec vous pour confirmer.</p><div class="contact-note"><span>✉</span><div><small>Les demandes sont envoyées à</small><strong>livraisonopc@gmail.com</strong></div></div></div>
+      <form class="order-form" action="https://formsubmit.co/livraisonopc@gmail.com" method="POST">
+        <input type="hidden" name="_subject" value="Nouvelle demande — OPC Livraison">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off">
+        <div class="form-row"><label>Prénom et nom<input required name="Nom du client" autocomplete="name" placeholder="Votre nom"></label><label>Téléphone<input required name="Téléphone" type="tel" autocomplete="tel" placeholder="450 000-0000"></label></div>
+        <label>Adresse de livraison<input required name="Adresse de livraison" autocomplete="street-address" placeholder="Numéro, rue, ville"></label>
+        <label>Commerce choisi<input required name="Commerce choisi" placeholder="Nom et adresse du commerce"></label>
+        <label>Que désirez-vous?<textarea required name="Commande demandée" rows="5" placeholder="Décrivez les articles, quantités et préférences le plus précisément possible."></textarea></label>
+        <div class="form-row"><label>Moment souhaité<select required name="Moment souhaité"><option value="">Choisir</option><option>Dès que possible</option><option>Aujourd'hui — avant-midi</option><option>Aujourd'hui — après-midi</option><option>Aujourd'hui — soirée</option><option>Une autre journée</option></select></label><label>Mode de contact<select required name="Mode de contact"><option>Appel téléphonique</option><option>Message texte</option><option>Courriel</option></select></label></div>
+        <label>Courriel (facultatif)<input name="Courriel" type="email" autocomplete="email" placeholder="vous@exemple.com"></label>
+        <label class="consent"><input required type="checkbox" name="Confirmation" value="Acceptée"><span>Je comprends que cette demande doit être confirmée et que le prix varie selon la distance.</span></label>
+        <button class="button submit" type="submit">Envoyer ma demande <span>→</span></button>
+        <p class="form-foot">Aucun paiement ne sera prélevé avec ce formulaire.</p>
+      </form>
+    </section>
+  </main>
+
+  <footer><a class="brand footer-brand" href="#accueil"><span class="brand-mark">O</span><span>OPC <b>Livraison</b></span></a><p>Votre service de livraison local, simple et humain.</p><span>© 2026 OPC Livraison</span></footer>
+</body>
+</html>
