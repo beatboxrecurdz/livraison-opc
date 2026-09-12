@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="theme-dark.css" />
   <link rel="stylesheet" href="account.css" />
+  <link rel="stylesheet" href="auth-fix.css" />
 </head>
 <body>
   <header class="nav-wrap">
@@ -79,7 +80,7 @@
     <div id="adminDashboard" class="dashboard-panel hidden"><div class="admin-grid"><div><div class="panel-title"><h3>Nouvelles commandes</h3><span class="counter" id="newOrderCount">0</span></div><div id="adminOrders" class="cards-list"></div></div><div><div class="panel-title"><h3>Livreurs</h3></div><div id="driversList" class="cards-list"></div><div class="panel-title requests-title"><h3>Demandes d’accès</h3></div><div id="driverRequests" class="cards-list"></div></div></div></div>
   </section>
 
-  <div class="modal hidden" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authTitle"><div class="modal-card"><button class="modal-close" id="closeModal" aria-label="Fermer">×</button><img src="assets/logo-opc.png" alt="OPC" class="modal-logo"><h2 id="authTitle">Connexion</h2><p id="authIntro">Accédez à votre compte client, livreur ou administrateur.</p><div class="auth-tabs"><button class="active" data-auth-tab="login">Connexion</button><button data-auth-tab="signup">Créer un compte</button></div><form id="authForm"><label id="nameField" class="hidden">Nom complet<input name="full_name" autocomplete="name"></label><label id="phoneField" class="hidden">Téléphone<input name="phone" type="tel" autocomplete="tel"></label><label>Courriel<input required name="email" type="email" autocomplete="email"></label><label>Mot de passe<input required name="password" type="password" minlength="8" autocomplete="current-password"></label><button class="button submit" type="submit" id="authSubmit">Se connecter</button><p class="form-foot" id="authMessage"></p></form></div></div>
+  <div class="modal hidden" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authTitle"><div class="modal-card"><button class="modal-close" id="closeModal" aria-label="Fermer">×</button><img src="assets/logo-opc.png" alt="OPC" class="modal-logo"><h2 id="authTitle">Connexion</h2><p id="authIntro">Accédez à votre compte client, livreur ou administrateur.</p><div class="auth-tabs"><button class="active" data-auth-tab="login">Connexion</button><button data-auth-tab="signup">Créer un compte</button></div><form id="authForm"><label id="nameField" class="hidden">Nom complet<input name="full_name" autocomplete="name"></label><label id="phoneField" class="hidden">Téléphone<input name="phone" type="tel" autocomplete="tel"></label><label>Courriel<input required name="email" type="email" autocomplete="email"></label><label>Mot de passe<input required name="password" type="password" minlength="8" autocomplete="current-password"></label><button class="button submit" type="submit" id="authSubmit">Se connecter</button><button class="resend-button" type="button" id="resendConfirmation">Renvoyer le courriel de confirmation</button><p class="form-foot" id="authMessage" aria-live="polite"></p></form></div></div>
 
   <footer><a class="brand footer-brand" href="#accueil"><img src="assets/logo-livraison-opc.png" alt="Livraison OPC"></a><p>Votre service de livraison local, simple et humain.</p><span>© 2026 OPC Livraison</span></footer>
   <script type="module" src="app.js"></script>
