@@ -75,12 +75,45 @@ async function approveDriver(id,approve){const {error}=await supabase.rpc('appro
 async function updateStatus(id,status){const {error}=await supabase.rpc('update_delivery_status',{order_to_update:id,new_status:status});if(error)return alert(error.message);await loadDriver();}
 
 $('accountButton').onclick=()=>session?renderDashboard():openAuth(); $('closeModal').onclick=closeAuth; $('authModal').onclick=e=>{if(e.target===$('authModal'))closeAuth();}; document.querySelectorAll('[data-auth-tab]').forEach(b=>b.onclick=()=>setAuthMode(b.dataset.authTab));
-$('authForm').onsubmit=async(e)=>{e.preventDefault();const f=new FormData(e.currentTarget),email=String(f.get('email')).trim(),password=String(f.get('password'));message('authMessage','Un instant…');let result;if(authMode==='signup'){result=await supabase.auth.signUp({email,password,options:{data:{full_name:String(f.get('full_name')||'').trim(),phone:String(f.get('phone')||'').trim()},emailRedirectTo:location.origin}});}else result=await supabase.auth.signInWithPassword({email,password});if(result.error)return message('authMessage',result.error.message,true);if(authMode==='signup'&&!result.data.session){message('authMessage','Vérifiez votre courriel pour confirmer votre compte.');return;}closeAuth();};
+$('authForm').onsubmit=async(e)=>{
+  e.preventDefault();
+  const form=e.currentTarget, f=new FormData(form), email=String(f.get('email')).trim(), password=String(f.get('password')), submit=$('authSubmit');
+  submit.disabled=true; message('authMessage','Un instant…');
+  try{
+    const result=authMode==='signup'
+      ?await supabase.auth.signUp({email,password,options:{data:{full_name:String(f.get('full_name')||'').trim(),phone:String(f.get('phone')||'').trim()},emailRedirectTo:location.origin}})
+      :await supabase.auth.signInWithPassword({email,password});
+    if(result.error)return message('authMessage',result.error.message,true);
+    if(authMode==='signup'&&!result.data.session){message('authMessage',`Compte créé! Un courriel de confirmation a été envoyé à ${email}. Ouvrez-le (vérifiez aussi les indésirables), puis revenez vous connecter.`);return;}
+    closeAuth();
+  }catch(error){message('authMessage','La connexion a échoué. Réessayez dans un instant.',true);console.error(error);}
+  finally{submit.disabled=false;}
+};
+$('resendConfirmation').onclick=async()=>{
+  const email=String(new FormData($('authForm')).get('email')||'').trim(), button=$('resendConfirmation');
+  if(!email)return message('authMessage','Entrez d’abord votre courriel.',true);
+  button.disabled=true; message('authMessage','Envoi du courriel…');
+  const {error}=await supabase.auth.resend({type:'signup',email,options:{emailRedirectTo:location.origin}});
+  button.disabled=false;
+  message('authMessage',error?error.message:`Courriel envoyé à ${email}. Vérifiez aussi vos indésirables.`,!!error);
+};
 $('logoutButton').onclick=async()=>{await supabase.auth.signOut();location.hash='accueil';};
 $('distanceSelect').onchange=()=>{$('feePreview').textContent=$('distanceSelect').value?money(feeFor($('distanceSelect').value)):'—';};
 $('orderForm').onsubmit=async(e)=>{e.preventDefault();if(!session){openAuth();return;}if(profile?.role==='driver'||profile?.role==='admin')return message('orderMessage','Utilisez un compte client pour commander.',true);const f=new FormData(e.currentTarget),distance=Number(f.get('distance_km')),payload={client_id:session.user.id,store_name:String(f.get('store_name')),store_address:String(f.get('store_address')),delivery_address:String(f.get('delivery_address')),requested_items:String(f.get('requested_items')),notes:String(f.get('notes')||''),distance_km:distance,delivery_fee:feeFor(distance),tip:Number(f.get('tip')||0)};const {error}=await supabase.from('orders').insert(payload);if(error)return message('orderMessage',error.message,true);e.currentTarget.reset();$('feePreview').textContent='—';message('orderMessage','Demande envoyée! Vous pouvez la suivre dans votre compte.');await loadClient();};
 $('availabilityToggle').onclick=async()=>{const {error}=await supabase.rpc('set_driver_availability',{available:!profile.is_available});if(error)return alert(error.message);await loadProfile();await loadDriver();};
 $('requestDriverButton').onclick=async()=>{const {error}=await supabase.rpc('request_driver_access');if(error)return alert(error.message);await loadProfile();await renderDashboard();};
 
-supabase.auth.onAuthStateChange(async(_event,newSession)=>{session=newSession;await loadProfile();$('accountButton').textContent=session?'Mon tableau de bord':'Mon compte';$('loginRequired').classList.toggle('hidden',!!session);if(session)await renderDashboard();else{$('dashboard').classList.add('hidden');}});
-const {data:{session:initialSession}}=await supabase.auth.getSession();session=initialSession;await loadProfile();$('accountButton').textContent=session?'Mon tableau de bord':'Mon compte';$('loginRequired').classList.toggle('hidden',!!session);
+async function applySession(newSession,showDashboard=false){
+  session=newSession;
+  $('accountButton').textContent=session?'Mon tableau de bord':'Mon compte';
+  $('loginRequired').classList.toggle('hidden',!!session);
+  if(!session){profile=null;$('dashboard').classList.add('hidden');return;}
+  await loadProfile();
+  if(showDashboard)await renderDashboard();
+}
+
+supabase.auth.onAuthStateChange((event,newSession)=>{
+  setTimeout(()=>applySession(newSession,event==='SIGNED_IN'),0);
+});
+const {data:{session:initialSession}}=await supabase.auth.getSession();
+await applySession(initialSession);
