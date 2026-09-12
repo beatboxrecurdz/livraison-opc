@@ -11,13 +11,14 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23ff5c35'/%3E%3Cpath d='M15 35h7l5-15h19l4 15h-7' fill='none' stroke='white' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='24' cy='42' r='5' fill='white'/%3E%3Ccircle cx='43' cy='42' r='5' fill='white'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="theme-dark.css" />
+  <link rel="stylesheet" href="account.css" />
 </head>
 <body>
   <header class="nav-wrap">
     <nav class="nav" aria-label="Navigation principale">
       <a class="brand" href="#accueil" aria-label="OPC Livraison, accueil"><img src="assets/logo-livraison-opc.png" alt="Livraison OPC"></a>
       <div class="nav-links"><a href="#fonctionnement">Comment ça marche</a><a href="#tarifs">Tarifs</a></div>
-      <a class="button button-small" href="#commander">Commander</a>
+      <div class="nav-actions"><button class="account-button" id="accountButton" type="button">Mon compte</button><a class="button button-small" href="#commander">Commander</a></div>
     </nav>
   </header>
 
@@ -55,23 +56,32 @@
 
     <section class="order-section" id="commander">
       <div class="order-intro"><span class="kicker">Demande de livraison</span><h2>Qu'est-ce qu'on vous apporte?</h2><p>Remplissez le formulaire. Votre demande sera envoyée directement à OPC Livraison et nous communiquerons avec vous pour confirmer.</p><div class="contact-note"><span>✉</span><div><small>Les demandes sont envoyées à</small><strong>livraisonopc@gmail.com</strong></div></div></div>
-      <form class="order-form" action="https://formsubmit.co/livraisonopc@gmail.com" method="POST">
-        <input type="hidden" name="_subject" value="Nouvelle demande — OPC Livraison">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off">
-        <div class="form-row"><label>Prénom et nom<input required name="Nom du client" autocomplete="name" placeholder="Votre nom"></label><label>Téléphone<input required name="Téléphone" type="tel" autocomplete="tel" placeholder="450 000-0000"></label></div>
-        <label>Adresse de livraison<input required name="Adresse de livraison" autocomplete="street-address" placeholder="Numéro, rue, ville"></label>
-        <label>Commerce choisi<input required name="Commerce choisi" placeholder="Nom et adresse du commerce"></label>
-        <label>Que désirez-vous?<textarea required name="Commande demandée" rows="5" placeholder="Décrivez les articles, quantités et préférences le plus précisément possible."></textarea></label>
-        <div class="form-row"><label>Moment souhaité<select required name="Moment souhaité"><option value="">Choisir</option><option>Dès que possible</option><option>Aujourd'hui — avant-midi</option><option>Aujourd'hui — après-midi</option><option>Aujourd'hui — soirée</option><option>Une autre journée</option></select></label><label>Mode de contact<select required name="Mode de contact"><option>Appel téléphonique</option><option>Message texte</option><option>Courriel</option></select></label></div>
-        <label>Courriel (facultatif)<input name="Courriel" type="email" autocomplete="email" placeholder="vous@exemple.com"></label>
-        <label class="consent"><input required type="checkbox" name="Confirmation" value="Acceptée"><span>Je comprends que cette demande doit être confirmée et que le prix varie selon la distance.</span></label>
+      <form class="order-form" id="orderForm">
+        <div class="login-required" id="loginRequired">Connectez-vous à votre compte client pour envoyer une demande.</div>
+        <label>Adresse de livraison<input required name="delivery_address" autocomplete="street-address" placeholder="Numéro, rue, ville"></label>
+        <div class="form-row"><label>Nom du commerce<input required name="store_name" placeholder="Ex. Restaurant Siam"></label><label>Adresse du commerce<input required name="store_address" placeholder="Numéro, rue, ville"></label></div>
+        <label>Que désirez-vous?<textarea required name="requested_items" rows="5" placeholder="Décrivez les articles, quantités et préférences le plus précisément possible."></textarea></label>
+        <label>Notes pour le livreur<textarea name="notes" rows="2" placeholder="Code de porte, instructions particulières…"></textarea></label>
+        <div class="form-row"><label>Distance estimée<select required name="distance_km" id="distanceSelect"><option value="">Choisir</option><option value="8">8 km ou moins</option><option value="14">Entre 8 et 14 km</option><option value="15">Plus de 14 km</option></select></label><label>Pourboire facultatif<input name="tip" type="number" min="0" step="1" value="0"></label></div>
+        <div class="fee-preview"><span>Frais de livraison estimés</span><strong id="feePreview">—</strong></div>
+        <label class="consent"><input required type="checkbox"><span>Je comprends que la demande et le prix doivent être confirmés.</span></label>
         <button class="button submit" type="submit">Envoyer ma demande <span>→</span></button>
-        <p class="form-foot">Aucun paiement ne sera prélevé avec ce formulaire.</p>
+        <p class="form-foot" id="orderMessage">Aucun paiement ne sera prélevé maintenant.</p>
       </form>
     </section>
   </main>
 
+  <section class="dashboard hidden" id="dashboard">
+    <div class="dashboard-head"><div><span class="kicker" id="dashboardRole">Mon espace</span><h2 id="dashboardTitle">Tableau de bord</h2><p id="dashboardEmail"></p></div><button class="ghost-button" id="logoutButton">Déconnexion</button></div>
+    <div id="clientDashboard" class="dashboard-panel hidden"><div class="panel-title"><h3>Mes demandes</h3><a class="button button-small" href="#commander">Nouvelle demande</a></div><div id="clientOrders" class="cards-list"></div></div>
+    <div id="driverDashboard" class="dashboard-panel hidden"><div class="availability-card"><div><small>Mon statut</small><strong id="availabilityLabel">Indisponible</strong></div><button class="availability-toggle" id="availabilityToggle">Me rendre disponible</button></div><div class="panel-title"><h3>Mes livraisons assignées</h3></div><div id="driverOrders" class="cards-list"></div></div>
+    <div id="pendingDriver" class="dashboard-panel hidden"><h3>Demande de compte livreur</h3><p id="driverRequestText">Vous pouvez demander à devenir livreur. L’administrateur devra approuver votre compte.</p><button class="button" id="requestDriverButton">Demander l’accès livreur</button></div>
+    <div id="adminDashboard" class="dashboard-panel hidden"><div class="admin-grid"><div><div class="panel-title"><h3>Nouvelles commandes</h3><span class="counter" id="newOrderCount">0</span></div><div id="adminOrders" class="cards-list"></div></div><div><div class="panel-title"><h3>Livreurs</h3></div><div id="driversList" class="cards-list"></div><div class="panel-title requests-title"><h3>Demandes d’accès</h3></div><div id="driverRequests" class="cards-list"></div></div></div></div>
+  </section>
+
+  <div class="modal hidden" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authTitle"><div class="modal-card"><button class="modal-close" id="closeModal" aria-label="Fermer">×</button><img src="assets/logo-opc.png" alt="OPC" class="modal-logo"><h2 id="authTitle">Connexion</h2><p id="authIntro">Accédez à votre compte client, livreur ou administrateur.</p><div class="auth-tabs"><button class="active" data-auth-tab="login">Connexion</button><button data-auth-tab="signup">Créer un compte</button></div><form id="authForm"><label id="nameField" class="hidden">Nom complet<input name="full_name" autocomplete="name"></label><label id="phoneField" class="hidden">Téléphone<input name="phone" type="tel" autocomplete="tel"></label><label>Courriel<input required name="email" type="email" autocomplete="email"></label><label>Mot de passe<input required name="password" type="password" minlength="8" autocomplete="current-password"></label><button class="button submit" type="submit" id="authSubmit">Se connecter</button><p class="form-foot" id="authMessage"></p></form></div></div>
+
   <footer><a class="brand footer-brand" href="#accueil"><img src="assets/logo-livraison-opc.png" alt="Livraison OPC"></a><p>Votre service de livraison local, simple et humain.</p><span>© 2026 OPC Livraison</span></footer>
+  <script type="module" src="app.js"></script>
 </body>
 </html>

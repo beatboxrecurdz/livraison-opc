@@ -8,4 +8,8 @@ Livraison à partir de 5 $. Le prix final varie selon la distance et est confirm
 
 ## Formulaire
 
-Le formulaire utilise FormSubmit. Lors de la première demande, un courriel d'activation sera envoyé à l'adresse de réception et devra être confirmé une seule fois.
+Les demandes sont maintenant enregistrées dans Supabase et visibles dans les tableaux de bord sécurisés.
+
+## Comptes et répartition
+
+Le site utilise Supabase Auth et une base PostgreSQL protégée par RLS. Les clients suivent leurs commandes, les livreurs approuvés gèrent leur disponibilité et l'administrateur `livraisonopc@gmail.com` assigne les commandes aux livreurs disponibles.
