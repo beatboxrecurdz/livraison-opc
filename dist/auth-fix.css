@@ -1,0 +1,28 @@
+.resend-button {
+  border: 0;
+  background: transparent;
+  color: #ff8a60;
+  text-decoration: underline;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 2px;
+}
+
+.resend-button:disabled,
+.button:disabled {
+  opacity: .55;
+  cursor: wait;
+}
+
+.form-foot:not(:empty) {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #132d20;
+  color: #72e5a7;
+  line-height: 1.45;
+}
+
+.form-foot.error {
+  background: #351718;
+}
